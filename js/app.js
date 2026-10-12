@@ -4,6 +4,45 @@
    #/s/<subject>       محاضرات المادة
    #/l/<subject>/<id>  صفحة المحاضرة + الامتحان               */
 const view = $("#view");
+const APP_STATE_KEY = "etoedu-app-state-v1";
+let hasStartedRoute = false;
+let appStateTimer = null;
+
+function readAppState() {
+  try {
+    return JSON.parse(localStorage.getItem(APP_STATE_KEY) || "null");
+  } catch (_) {
+    return null;
+  }
+}
+
+function saveAppState() {
+  try {
+    localStorage.setItem(APP_STATE_KEY, JSON.stringify({
+      hash: location.hash || "#/",
+      scrollY: Math.max(0, window.scrollY || 0),
+      savedAt: Date.now()
+    }));
+  } catch (_) {}
+}
+
+function restoreLastRoute() {
+  const state = readAppState();
+
+  if (
+    !location.hash &&
+    state &&
+    typeof state.hash === "string" &&
+    state.hash.startsWith("#/") &&
+    state.hash !== "#/"
+  ) {
+    history.replaceState(
+      null,
+      "",
+      location.pathname + location.search + state.hash
+    );
+  }
+}
 const go = h => { if (location.hash === "#" + h) route(); else location.hash = h; };
 
 const findTrack = id => SITE.tracks.find(t => t.id === id);
@@ -121,29 +160,63 @@ async function lectureView(sid, lid) {
   const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }), { threshold: .06 });
   $$("section").forEach(x => io.observe(x));
   Tr.set(L.glossary); Tr.wrap(view); lecUI(L);
+  Exam.restore(L, () => lecUI(L));
 }
 
 async function route() {
+  const firstRoute = !hasStartedRoute;
+  hasStartedRoute = true;
+
+  const savedState = firstRoute ? readAppState() : null;
+  const currentHash = location.hash || "#/";
+  const restoreScroll = !!(
+    savedState && savedState.hash === currentHash
+  );
+
   const p = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
+
   document.body.classList.toggle("lecv", p[0] === "l");
-  $("#rp").style.width = "0"; Tr.hide(); scrollTo(0, 0);
+  $("#rp").style.width = "0";
+  Tr.hide();
+
+  if (!restoreScroll) scrollTo(0, 0);
+
   try {
     if (p[0] === "t") return trackView(p[1]);
     if (p[0] === "s") return await subjectView(p[1]);
     if (p[0] === "tool") return await toolView(p[1], p[2]);
     if (p[0] === "l") return await lectureView(p[1], p[2]);
-    home();
-  } catch (e) { view.innerHTML = `<div class="empty"><h3>Something went wrong</h3><p>${e.message}</p><button class="btn" data-go="/">Home</button></div>`; }
-}
 
-/* ---------- تشغيل ---------- */
+    home();
+  } catch (e) {
+    view.innerHTML = `<div class="empty"><h3>Something went wrong</h3><p>${e.message}</p><button class="btn" data-go="/">Home</button></div>`;
+  } finally {
+    if (restoreScroll) {
+      const y = Math.max(0, Number(savedState.scrollY) || 0);
+      const restore = () => window.scrollTo(0, y);
+
+      requestAnimationFrame(() => {
+        restore();
+        requestAnimationFrame(restore);
+      });
+
+      setTimeout(restore, 350);
+      setTimeout(restore, 800);
+    }
+
+    saveAppState();
+  }
+}
 UI.init(); Tr.init(); Exam.init();
+restoreLastRoute();
 document.addEventListener("click", e => { const g = e.target.closest("[data-go]"); if (g) go(g.dataset.go); });
 addEventListener("hashchange", route);
 addEventListener("scroll", () => {
   const h = document.documentElement, m = h.scrollHeight - innerHeight;
   $("#rp").style.width = (document.body.classList.contains("lecv") && m > 0 ? scrollY / m * 100 : 0) + "%";
   $("#up").style.display = scrollY > 700 ? "block" : "none";
+  if (appStateTimer) clearTimeout(appStateTimer);
+  appStateTimer = setTimeout(saveAppState, 180);
 });
 $("#up").onclick = () => scrollTo({ top: 0, behavior: "smooth" });
 route();

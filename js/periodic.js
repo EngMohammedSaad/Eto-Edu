@@ -222,7 +222,7 @@ body[data-l=both] .pt-n .ar{display:none}
 @keyframes ptin{from{opacity:0;transform:translateY(10px) scale(.92)}to{opacity:1;transform:none}}`;
 
   const T = {
-    id: "periodic", icon: "⚛",
+    id: "periodic", icon: '<img src="js/img/periodic.png" style="width:100%;height:100%;object-fit:cover;" alt="Chemistry Icon">',
     title: { en: "Periodic Table", ar: "الجدول الدوري" },
     desc: { en: "Interactive table of all 118 elements with search, filters and details.", ar: "جدول تفاعلي لـ 118 عنصر مع بحث وفلترة وتفاصيل كل عنصر." }
   };

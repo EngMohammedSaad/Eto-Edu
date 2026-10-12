@@ -140,3 +140,41 @@ body[data-l="both"] .study-bi>.en{direction:ltr;text-align:left}
 body[data-l="both"] .study-bi>.ar{direction:rtl;text-align:right;margin:0;color:var(--navy)}
 body[data-l="both"] .study-bi>i{display:block;width:2px;min-height:100%;height:100%;background:var(--bd);border-radius:99px;align-self:stretch}
 @media(max-width:640px){body[data-l="both"] .study-bi{gap:8px} }
+
+/* ---- تحسين خفيف للواجهة الرئيسية والتثبيت ---- */
+html{scroll-padding-top:84px}
+body{overflow-x:hidden;background-image:radial-gradient(ellipse at 4% 12%,rgba(14,138,138,.055),transparent 34%),radial-gradient(ellipse at 96% 42%,rgba(245,158,11,.045),transparent 30%)}
+.hhero{isolation:isolate;border-radius:0 0 28px 28px;background:radial-gradient(circle at 15% 20%,#1d6fae,transparent 55%),linear-gradient(135deg,#0b2545,#12355b 50%,#0e8a8a)}
+.hhero::before,.hhero::after{content:"";position:absolute;pointer-events:none;border-radius:50%;z-index:-1;border:1px solid rgba(255,255,255,.13)}
+.hhero::before{width:260px;height:260px;top:-132px;right:-74px;box-shadow:0 0 0 22px rgba(255,255,255,.035),0 0 0 46px rgba(255,255,255,.025)}
+.hhero::after{width:210px;height:210px;bottom:-118px;left:-52px;box-shadow:0 0 0 20px rgba(255,255,255,.035),0 0 0 42px rgba(255,255,255,.025)}
+.grid,.tracks{width:100%;min-width:0;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.card,.tcard,.exam-card{min-width:0}
+.card,.tcard,.exam-card,.btn,.seg button{ -webkit-tap-highlight-color:transparent }
+.card:focus-visible,.tcard:focus-visible,.exam-card:focus-visible,.btn:focus-visible,.seg button:focus-visible,.install-btn:focus-visible{outline:3px solid var(--amb);outline-offset:3px}
+.install-btn{white-space:nowrap;padding:8px 14px;font-size:13px;flex:0 0 auto}
+@media(hover:none){.card:hover,.tcard:hover,.exam-card:hover,.btn:hover{transform:none;box-shadow:0 8px 22px rgba(18,53,91,.08)}}
+@media(max-width:640px){
+  .hhero{padding:64px 16px 88px;border-radius:0 0 22px 22px}
+  .hhero+.grid{margin-top:-38px}
+  .grid{gap:14px;margin-bottom:42px;padding:0 12px}
+  .tracks{gap:14px;margin:-44px auto 44px;padding:0 12px}
+  .tcard{padding:22px 20px;border-radius:20px}
+  .sechd{margin-top:26px;padding:0 14px}
+  .top{gap:8px}
+  .tools{width:100%;max-width:100%;gap:7px;align-items:center}
+  .tools .seg{max-width:100%;min-width:0}
+  .seg button{padding:8px 9px;font-size:12px}
+  .install-btn{padding:8px 11px;font-size:12px}
+  .hhero .stats{gap:7px}
+  .hhero .stats span{padding:5px 12px}
+}
+@media(max-width:360px){
+  .tools{flex-wrap:wrap}
+  #lg{flex:1 1 100%;justify-content:center}
+  #fz{flex:0 0 auto}
+  .install-btn{flex:1 1 auto}
+  .hhero h1{font-size:clamp(34px,11vw,42px)}
+}
+@media(prefers-reduced-motion:reduce){.hhero::before,.hhero::after{display:none}}
+
