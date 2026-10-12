@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7FAFD"/><stop offset="1" stop-color="#EAF1F6"/></linearGradient>
+  <linearGradient id="furnace" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#344F63"/><stop offset=".5" stop-color="#607D93"/><stop offset="1" stop-color="#263F52"/></linearGradient>
+  <linearGradient id="hot" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5C978"/><stop offset=".45" stop-color="#DF8251"/><stop offset="1" stop-color="#A84A36"/></linearGradient>
+  <linearGradient id="reformer" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EFF8F3"/><stop offset="1" stop-color="#D7ECE2"/></linearGradient>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#243B4A" flood-opacity=".15"/></filter>
+  <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" viewBox="0 0 14 14" refX="12" refY="7" orient="auto"><path d="M1 1 L12 7 L1 13 Z" fill="#2C9270"/></marker>
+  <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" viewBox="0 0 14 14" refX="12" refY="7" orient="auto"><path d="M1 1 L12 7 L1 13 Z" fill="#1976B8"/></marker>
+  <marker id="arrowAmber" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" viewBox="0 0 14 14" refX="12" refY="7" orient="auto"><path d="M1 1 L12 7 L1 13 Z" fill="#D97726"/></marker>
+  <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" viewBox="0 0 14 14" refX="12" refY="7" orient="auto"><path d="M1 1 L12 7 L1 13 Z" fill="#697C8D"/></marker>
+</defs>
+<rect width="1400" height="900" rx="36" fill="url(#bg)"/>
+<circle cx="1310" cy="115" r="125" fill="#DCE9F2" opacity=".4"/><circle cx="80" cy="825" r="135" fill="#DCE9F2" opacity=".42"/>
+<text x="700" y="70" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="43" font-weight="700" fill="#17334A">اختزال الهيماتيت في فرن مدركس</text>
+<text x="700" y="112" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="25" fill="#526A7D">اختزال مباشر باستخدام غازي أول أكسيد الكربون والهيدروجين</text>
+<!-- recycle loop, routed above the ore feed -->
+<path d="M1160 340 L1160 192 Q1160 176 1140 176 L382 176 Q362 176 362 196 L362 328" fill="none" stroke="#697C8D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowGray)"/>
+<rect x="900" y="143" width="245" height="48" rx="22" fill="#F7FAFD" stroke="#CBD8E1" stroke-width="2"/>
+<text x="1022" y="175" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="22" font-weight="700" fill="#52616F">دورة غاز مغلقة</text>
+<!-- Reformer -->
+<g filter="url(#shadow)"><rect x="60" y="345" width="335" height="245" rx="26" fill="url(#reformer)" stroke="#B8D6C9" stroke-width="3"/></g>
+<text x="227" y="390" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="31" font-weight="700" fill="#225E49">مُصلِح الغاز</text>
+<text x="227" y="428" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="21" fill="#477663">الغاز الطبيعي + بخار الماء + CO₂</text>
+<path d="M105 452 H350" stroke="#BCD9CC" stroke-width="3"/>
+<g stroke="#2C9270" stroke-width="8" stroke-linecap="round" fill="none"><path d="M136 474 V520 Q136 536 152 536 H168"/><path d="M211 474 V520 Q211 536 227 536 H243"/><path d="M286 474 V520 Q286 536 302 536 H318"/></g>
+<g fill="#EBA55A"><circle cx="136" cy="476" r="8"/><circle cx="211" cy="476" r="8"/><circle cx="286" cy="476" r="8"/></g>
+<text x="227" y="570" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="24" font-weight="700" fill="#225E49">الناتج: CO + H₂</text>
+<!-- reducing gases from reformer to shaft -->
+<path d="M398 460 L530 460" fill="none" stroke="#2C9270" stroke-width="10" stroke-linecap="round" marker-end="url(#arrowGreen)"/>
+<rect x="405" y="405" width="125" height="42" rx="18" fill="#FFFFFF" stroke="#C9D8E2" stroke-width="2"/>
+<text x="467" y="433" text-anchor="middle" font-family="Noto Sans, Arial, sans-serif" font-size="24" font-weight="700" fill="#226E54">CO + H₂</text>
+<text x="465" y="520" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="19" fill="#477663">غازات مختزلة</text>
+<!-- shaft furnace: clearly visible vessel -->
+<path d="M555 275 Q555 250 580 250 H800 Q825 250 825 275 V565 L785 635 H595 L555 565 Z" fill="url(#furnace)" stroke="#263F52" stroke-width="7"/>
+<path d="M588 291 H792 V553 L767 600 H613 L588 553 Z" fill="url(#hot)" stroke="#E7B88F" stroke-width="4"/>
+<ellipse cx="690" cy="270" rx="135" ry="23" fill="#A7BAC7" stroke="#263F52" stroke-width="6"/>
+<!-- hematite feed -->
+<text x="500" y="226" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="22" font-weight="700" fill="#8C4D25">هيماتيت Fe₂O₃</text>
+<path d="M690 222 L690 247" fill="none" stroke="#D97726" stroke-width="8" stroke-linecap="round" marker-end="url(#arrowAmber)"/>
+<g fill="#6E4A3A" stroke="#4B342A" stroke-width="1.5"><circle cx="642" cy="266" r="8"/><circle cx="667" cy="260" r="7"/><circle cx="689" cy="267" r="8"/><circle cx="715" cy="262" r="7"/><circle cx="739" cy="267" r="8"/><circle cx="657" cy="278" r="7"/><circle cx="701" cy="280" r="7"/><circle cx="727" cy="279" r="7"/></g>
+<!-- downward ore path and upward reducing gas path -->
+<g stroke="#FFF4D9" stroke-width="5" stroke-linecap="round" fill="none"><path d="M625 322 L625 354"/><path d="M690 322 L690 354"/><path d="M755 322 L755 354"/></g>
+<g fill="#FFF4D9"><path d="M616 348 L625 361 L634 348 Z"/><path d="M681 348 L690 361 L699 348 Z"/><path d="M746 348 L755 361 L764 348 Z"/></g>
+<rect x="600" y="388" width="155" height="82" rx="18" fill="#FFF8E9" stroke="#F1D7B6" stroke-width="2"/>
+<text x="677" y="420" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="22" font-weight="700" fill="#803E2E">منطقة الاختزال</text>
+<text x="677" y="450" text-anchor="middle" font-family="Noto Sans, Arial, sans-serif" font-size="22" font-weight="700" fill="#803E2E">Fe₂O₃ → Fe</text>
+<path d="M780 524 L780 478" stroke="#D9F4FF" stroke-width="6" stroke-linecap="round" fill="none" marker-end="url(#arrowBlue)"/>
+<text x="680" y="552" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="20" font-weight="700" fill="#FFF7E5">الغازات تزيل الأكسجين</text>
+<!-- sponge iron discharge -->
+<path d="M690 637 L690 682" fill="none" stroke="#697C8D" stroke-width="8" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+<g filter="url(#shadow)"><rect x="545" y="697" width="290" height="125" rx="23" fill="#FFFFFF" stroke="#D4E0E8" stroke-width="3"/></g>
+<text x="690" y="740" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="29" font-weight="700" fill="#243E52">الحديد الإسفنجي</text>
+<text x="690" y="773" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="21" fill="#62788A">الناتج من مدركس</text>
+<g fill="#635C59"><circle cx="625" cy="800" r="6"/><circle cx="650" cy="802" r="6"/><circle cx="676" cy="799" r="6"/><circle cx="702" cy="802" r="6"/><circle cx="728" cy="799" r="6"/><circle cx="753" cy="802" r="6"/></g>
+<!-- top-gas scrubber -->
+<g filter="url(#shadow)"><rect x="980" y="340" width="340" height="215" rx="26" fill="#FFFFFF" stroke="#D4E0E8" stroke-width="3"/></g>
+<text x="1150" y="384" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="29" font-weight="700" fill="#243E52">تنقية الغاز العلوي</text>
+<text x="1150" y="420" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="21" fill="#62788A">ثم إعادة تدوير جزء منه</text>
+<path d="M1060 444 V505 H1240 V444" fill="none" stroke="#1976B8" stroke-width="8" stroke-linecap="round"/>
+<g fill="#1976B8"><circle cx="1060" cy="438" r="7"/><circle cx="1120" cy="438" r="7"/><circle cx="1180" cy="438" r="7"/><circle cx="1240" cy="438" r="7"/></g>
+<!-- furnace top gas to scrubber -->
+<path d="M825 302 C875 302 916 302 975 381" fill="none" stroke="#697C8D" stroke-width="8" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+<text x="900" y="286" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="20" fill="#526A7D">الغاز العلوي</text>
+<!-- explanation card -->
+<rect x="970" y="610" width="350" height="145" rx="24" fill="#E3F0F9" stroke="#C8DDEB" stroke-width="2"/>
+<text x="1145" y="650" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="25" font-weight="700" fill="#175B86">الفكرة الأساسية</text>
+<text x="1145" y="685" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="21" fill="#315F7D">CO و H₂ يختزلان الهيماتيت</text>
+<text x="1145" y="718" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Sans Arabic, Noto Sans, sans-serif" font-size="21" fill="#315F7D">دون صهر الحديد</text>
+</svg>
