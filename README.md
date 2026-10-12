@@ -23,10 +23,3 @@ data/Thanwaya/chem/ داتا كيمياء ثانوية عامة
 1. اعمل فولدر جوه `data/` باسم المادة (مثلاً `data/Phys/`).
 2. حط فيه `lecture1.js` و `questions1.js` بنفس شكل `data/Geo/`.
 3. في `data/subjects.js` شيل `soon: true` من المادة وزوّد `files: [...]`.
-
-## إضافة محاضرة لمادة موجودة
-اعمل `lecture2.js` و `questions2.js` في فولدر المادة، وزوّدهم في `files` بتاعة المادة.
-
-## المحاضرة 1 في كيمياء ثانوية عامة
-مكانها محجوز (كارت Coming soon). لما تجهز: اعمل `lecture1.js` و `questions1.js` في `data/Thanwaya/chem/` (id: `chem-1`)،
-زوّدهم في `files` بتاعة `chem-sec` في `data/subjects.js`، وشيل `placeholders: [{ number: 1 }]`.
