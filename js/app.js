@@ -141,7 +141,7 @@ async function lectureView(sid, lid) {
     <h1>${bi({ en: `Lecture ${L.number}: ${L.title.en}`, ar: `المحاضرة ${L.number}: ${L.title.ar}` })}</h1>
     <div class="chips"><span>${L.sections.length} sections</span><span>${q} exam questions</span><span id="lp"></span></div>
     <div class="toc">${L.sections.map((x, i) => `<button data-g="${x.id}">${i + 1}. ${x.title.en}</button>`).join("")}</div></div>
-    <main><div class="tip">${bi({ en: "Tip: press and hold any underlined English word to see its Arabic meaning.", ar: "نصيحة: دوس مطوّل على أي كلمة إنجليزي تحتها خط وهتشوف معناها بالعربي." })}</div>
+    <main><div class="tip">${bi({ en: "Tip: tap any underlined English word to see its Arabic meaning.", ar: "نصيحة: دوس على أي كلمة إنجليزي تحتها خط وهتشوف معناها بالعربي." })}</div>
     ${L.sections.map((x, i) => sectionHTML(x, i, L)).join("")}
     <div class="go"><p>${bi({ en: "Ready to test yourself?", ar: "جاهز تختبر نفسك؟" })}</p><small id="bestl"></small>
       ${q >= 100 ? `<div class="exam-cards">${Array.from({ length: 3 }, (_, i) => {

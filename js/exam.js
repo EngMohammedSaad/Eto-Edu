@@ -7,17 +7,27 @@ const examPair = (value, arValue) => {
   return { en, ar: arValue || en };
 };
 
+/* تنسيق آمن للنص: يسمح بس بـ <sub> <sup> <b> <i> والرموز زي &rarr; &gt;
+   وأي حاجة تانية بتتحوّل لنص عادي (عشان مايظهرش كود للطالب ومايحصلش XSS) */
+const examSafeHtml = raw => String(raw ?? "")
+  .replace(/&(?!(?:[a-zA-Z][a-zA-Z0-9]*|#\d+|#x[0-9a-fA-F]+);)/g, "&amp;")
+  .replace(/<(?!\/?(?:sub|sup|b|i)>)/gi, "&lt;");
+
 const examText = value => {
   const t = examPair(value);
+  const isMath = Exam.lec && (Exam.lec.subject === "math" || /^math(?:-|$)/.test(Exam.lec.id || ""));
   const display = raw => {
-    const text = String(raw ?? '');
-    if (window.MathsTutor && typeof window.MathsTutor.formatMath === 'function') {
+    const text = String(raw ?? "");
+    if (isMath && window.MathsTutor && typeof window.MathsTutor.formatMath === "function") {
       return window.MathsTutor.formatMath(text);
     }
-    return examEscape(text);
+    return examSafeHtml(text);
   };
   const hasSeparateArabic = Boolean(t.ar && t.ar !== t.en);
-  return `<div class="exam-bi"><div class="en">${display(t.en)}</div>${hasSeparateArabic ? `<i aria-hidden="true"></i><div class="ar">${display(t.ar)}</div>` : ""}</div>`;
+  /* لو النص العربي والإنجليزي نفس الحاجة (أرقام، معادلات، رموز) نعرضه مرة واحدة
+     بدون كلاس en/ar عشان مايتخباش لما اللغة تكون "عربي" */
+  if (!hasSeparateArabic) return `<div class="exam-bi"><div class="exam-same">${display(t.en || t.ar)}</div></div>`;
+  return `<div class="exam-bi"><div class="en">${display(t.en)}</div><i aria-hidden="true"></i><div class="ar">${display(t.ar)}</div></div>`;
 };
 
 const examPlain = value => examPair(value).en;
@@ -30,7 +40,7 @@ function examMath(value) {
   if (window.MathsTutor && typeof window.MathsTutor.formatMath === "function") {
     return window.MathsTutor.formatMath(text);
   }
-  return examEscape(text);
+  return examSafeHtml(text);
 }
 
 function ensureGuidedReviewStyles() {

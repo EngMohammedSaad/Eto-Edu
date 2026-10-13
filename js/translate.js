@@ -1,4 +1,4 @@
-/* js/translate.js - الترجمة بالضغطة المطوّلة على الكلمات الإنجليزي (من glossary المحاضرة) */
+/* js/translate.js - الترجمة بضغطة واحدة على الكلمات الإنجليزي (من glossary المحاضرة) */
 const Tr = {
   map: {}, rx: null, timer: 0, lp: false,
 
@@ -46,17 +46,13 @@ const Tr = {
   },
 
   init() {
-    document.addEventListener("pointerdown", e => {
-      this.hide();
-      const t = e.target.closest && e.target.closest(".t"); if (!t) return;
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => { this.show(t); this.lp = true; }, 450);
+    /* ضغطة واحدة على الكلمة = يظهر المعنى فورًا. ضغطة في أي مكان تاني تخفيه */
+    document.addEventListener("pointerdown", () => this.hide());
+    document.addEventListener("click", e => {
+      const t = e.target.closest && e.target.closest(".t");
+      if (t) this.show(t);
     });
-    ["pointerup", "pointercancel", "scroll"].forEach(ev => document.addEventListener(ev, () => {
-      clearTimeout(this.timer); setTimeout(() => this.lp = false, 350);
-    }, true));
+    document.addEventListener("scroll", () => this.hide(), true);
     document.addEventListener("contextmenu", e => { if (e.target.closest && e.target.closest(".t")) e.preventDefault(); });
-    /* لو الضغطة كانت مطوّلة، منعمل كليك (عشان ما يتختارش اختيار بالغلط) */
-    document.addEventListener("click", e => { if (this.lp) { e.stopPropagation(); e.preventDefault(); this.lp = false; } }, true);
   }
 };
