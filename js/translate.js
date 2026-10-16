@@ -15,7 +15,7 @@ const Tr = {
   wrap(root) {
     const rx = this.rx; if (!rx) return;
     const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-      acceptNode: n => (!n.nodeValue.trim() || n.parentElement.closest(".t,.ar,script,style,button.done,.toc,.back,.crumb"))
+      acceptNode: n => (!n.nodeValue.trim() || n.parentElement.closest(".t,.ar,script,style,button.done,.toc,.back,.crumb,.fx,.frc,.rt"))
         ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
     });
     const nodes = []; while (w.nextNode()) nodes.push(w.currentNode);

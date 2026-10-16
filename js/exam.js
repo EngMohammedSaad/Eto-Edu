@@ -187,6 +187,7 @@ const Exam = {
     $("#ex").style.display = "block";
     document.body.style.overflow = "hidden";
 
+    this._logged = state.screen === "result";   // نتيجة اتسجّلت قبل كده، ماتتسجّلش تاني بعد الريفريش
     if (state.screen === "result") this.result();
     else this.draw();
     return true;
@@ -222,7 +223,7 @@ const Exam = {
     this.writtenAnswers = [];
     this.examIndex = Number.isInteger(examIndex) && all.length >= 100 ? examIndex : null;
 
-    let raw = all;
+    let raw = all.map((x, idx) => ({ x, idx }));   // idx = رقم السؤال الأصلي في البنك (للربط مع «أخطائي»)
     if (this.examIndex !== null) {
       const base = Math.floor(all.length / 3), rem = all.length % 3;
       const start = this.examIndex * base + Math.min(this.examIndex, rem);
@@ -230,12 +231,13 @@ const Exam = {
       raw = all.slice(start, start + size);
     }
 
-    this.Q = this.shuffle(raw).map(x => {
+    this.Q = this.shuffle(raw).map(({ x, idx }) => {
       const correct = examPair(x.a, x.aAr);
       const wrong = (x.w || []).map((value, k) => examPair(value, (x.wAr || [])[k]));
-      return { q: examPair(x.q, x.qAr), c: correct, o: this.shuffle([correct, ...wrong]) };
+      return { q: examPair(x.q, x.qAr), c: correct, o: this.shuffle([correct, ...wrong]), idx };
     });
     this.A = Array(this.Q.length).fill(null);
+    this._logged = false;
     this.i = 0;
     $("#ex").style.display = "block";
     document.body.style.overflow = "hidden";
@@ -455,6 +457,13 @@ const Exam = {
       else wrong.push(k);
     });
     const p = Math.round(s / N * 100);
+    /* ربط بالفيتشرز: الغلط يتحفظ في «أخطائي»، وإحصائية الأسئلة + سجل النتائج + الـ streak */
+    if (!this._logged) {
+      this._logged = true;
+      try {
+        if (window.EF && EF.examDone) EF.examDone(this.lec.id, this.Q.map((x, k) => ({ idx: x.idx, ok: this.A[k] === null ? null : examPlain(x.o[this.A[k]]) === examPlain(x.c) })), { part: this.examIndex === null ? null : this.examIndex + 1 });
+      } catch (_) {}
+    }
     const key = this.examIndex === null ? "best:" + this.lec.id : `best:${this.lec.id}:exam${this.examIndex + 1}`;
     const b = Store.get(key, null);
     if (b == null || p > b) Store.set(key, p);
@@ -467,7 +476,7 @@ const Exam = {
       : { en: "Study the lecture again, then retry.", ar: "ذاكر المحاضرة تاني وبعدها جرّب الامتحان." };
 
     box.innerHTML = `<div class="score">0%</div><div class="msg">${bi({ en: `${s} / ${N} correct`, ar: `${s} من ${N} إجابة صحيحة` })}<div>${bi(m)}</div></div>
-      <div class="nav"><button class="btn" id="rt">${bi({ en: "Retry this exam", ar: "إعادة الامتحان" })}</button><button class="btn main" id="cl">${bi({ en: "Back to lecture", ar: "العودة للمحاضرة" })}</button></div>` +
+      <div class="nav"><button class="btn" id="rt">${bi({ en: "Retry this exam", ar: "إعادة الامتحان" })}</button>${window.EF && wrong.length ? `<button class="btn" id="exm">${bi({ en: "Review my mistakes", ar: "راجع أخطائي" })}</button>` : ""}${window.EF ? `<button class="btn" id="exs">${bi({ en: "Smart practice", ar: "تدريب ذكي" })}</button>` : ""}<button class="btn main" id="cl">${bi({ en: "Back to lecture", ar: "العودة للمحاضرة" })}</button></div>` +
       (wrong.length ? `<h3>${bi({ en: `Review (${wrong.length} incorrect)`, ar: `مراجعة الإجابات الخاطئة (${wrong.length})` })}</h3>` + wrong.map(k => {
         const chosen = this.A[k] === null ? { en: "—", ar: "—" } : this.Q[k].o[this.A[k]];
         return `<div class="rv"><b>${k + 1}. ${examText(this.Q[k].q)}</b>
@@ -476,6 +485,9 @@ const Exam = {
       }).join("") : "");
     $("#cl").onclick = () => this.close();
     $("#rt").onclick = () => this.start(this.lec, this.cb, this.examIndex);
+    const efLid = this.lec.id;
+    if ($("#exm")) $("#exm").onclick = () => { this.close(); setTimeout(() => EF.openMistakes(efLid), 80); };
+    if ($("#exs")) $("#exs").onclick = () => { this.close(); setTimeout(() => EF.openSmart(efLid), 80); };
     $("#ex").scrollTop = 0;
     Tr.wrap(box);
     this.saveState("result");

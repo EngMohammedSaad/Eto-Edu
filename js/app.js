@@ -3,6 +3,32 @@
    #/t/<track>         مواد التراك
    #/s/<subject>       محاضرات المادة
    #/l/<subject>/<id>  صفحة المحاضرة + الامتحان               */
+
+/* ---- slides + formulas ---- */
+(function(){const st=document.createElement("style");st.textContent=`
+.stage{position:relative;max-width:860px;margin:18px auto 0}
+.stage section{display:none;opacity:1!important;transform:none!important;min-height:55vh;animation:sl .35s ease}
+.stage section.on{display:block}
+@keyframes sl{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.snav{position:sticky;bottom:0;z-index:20;max-width:860px;margin:14px auto;padding:10px 12px;display:flex;align-items:center;gap:10px;background:rgba(20,30,45,.92);backdrop-filter:blur(8px);border-radius:14px;color:#fff}
+.snav button{flex:0 0 auto;border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:700;cursor:pointer;background:#2563eb;color:#fff}
+.snav button:disabled{opacity:.35;cursor:default}
+.snav .mid{flex:1;text-align:center;font-size:.85rem}
+.sbar{height:5px;border-radius:5px;background:rgba(255,255,255,.2);margin-top:6px;overflow:hidden}
+.sbar i{display:block;height:100%;width:0;background:#38bdf8;transition:width .3s}
+.fx{display:inline-block;direction:ltr;unicode-bidi:isolate;font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.08em;font-weight:600;padding:2px 10px;margin:2px 3px;border-radius:8px;background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.28);line-height:1.7}
+.eqb{margin:8px 0 2px;padding:8px 12px;border-radius:10px;background:rgba(127,127,127,.1);border-inline-start:4px solid #2563eb}
+.eql{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;line-height:2;unicode-bidi:plaintext}
+.eql:not(:last-child){border-bottom:1px dashed rgba(127,127,127,.25)}
+.rt{display:inline-flex;align-items:flex-end;unicode-bidi:isolate;direction:ltr}.rt i{font-style:normal}.rt u{text-decoration:none;border-top:1.5px solid currentColor;padding:0 2px;margin-top:2px}
+sub,sup{line-height:0;font-size:.72em}
+.frc{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .18em;line-height:1.2;direction:ltr;unicode-bidi:isolate;font-size:.95em}
+.frc>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .35em .06em}
+.frc>span:last-child{padding:.06em .35em 0}
+.eql .fx{background:none;border:0;padding:0;margin:0;font-weight:inherit;display:inline}
+.fx b{font-weight:800}
+.fx .frc,.fx .rt{font-weight:inherit}
+`;document.head.appendChild(st)})();
 const view = $("#view");
 const APP_STATE_KEY = "etoedu-app-state-v1";
 let hasStartedRoute = false;
@@ -102,8 +128,10 @@ async function subjectView(id) {
     <div class="sechd"><h2>${bi({ en: "Lectures", ar: "المحاضرات" })}</h2></div><div class="grid">` +
     cards.map((c, k) => c.html.replace("<div class=\"card", `<div style="animation-delay:${k * .08}s" class="card`)).join("") + `</div>
     <div class="sechd"><h2>${bi({ en: "Study tools", ar: "أدوات مساعدة" })}</h2></div><div class="grid">${toolCards.join("")}</div>`;
+  if (window.EF) EF.subject(s);
 }
 async function toolView(sid, tid) {
+  const f0 = findSubject(sid); if (f0 && !f0.s.soon) await loadScripts(f0.s.files);
   const f = findSubject(sid), tl = TOOLS[tid]; if (!f || f.s.soon || !tl) return home();
   const { s, t } = f;
   view.innerHTML = crumb([HOME, [t.title, "/t/" + t.id], [s.title, "/s/" + s.id], [tl.title, "/tool/" + s.id + "/" + tl.id]]) + `<div id="toolbox"></div>`;
@@ -142,7 +170,8 @@ async function lectureView(sid, lid) {
     <div class="chips"><span>${L.sections.length} sections</span><span>${q} exam questions</span><span id="lp"></span></div>
     <div class="toc">${L.sections.map((x, i) => `<button data-g="${x.id}">${i + 1}. ${x.title.en}</button>`).join("")}</div></div>
     <main><div class="tip">${bi({ en: "Tip: tap any underlined English word to see its Arabic meaning.", ar: "نصيحة: دوس على أي كلمة إنجليزي تحتها خط وهتشوف معناها بالعربي." })}</div>
-    ${L.sections.map((x, i) => sectionHTML(x, i, L)).join("")}
+    <div class="stage" id="stage">${L.sections.map((x, i) => sectionHTML(x, i, L)).join("")}</div>
+    <div class="snav"><button id="sprev">&#8592; Previous</button><div class="mid"><span id="sct"></span><div class="sbar"><i id="sfill"></i></div></div><button id="snext">Next &#8594;</button></div>
     <div class="go"><p>${bi({ en: "Ready to test yourself?", ar: "جاهز تختبر نفسك؟" })}</p><small id="bestl"></small>
       ${q >= 100 ? `<div class="exam-cards">${Array.from({ length: 3 }, (_, i) => {
         const base = Math.floor(q / 3), rem = q % 3;
@@ -150,17 +179,35 @@ async function lectureView(sid, lid) {
         const names = [{ en: "Exam 1", ar: "الامتحان الأول" }, { en: "Exam 2", ar: "الامتحان الثاني" }, { en: "Exam 3", ar: "الامتحان الثالث" }];
         return `<button class="exam-card" data-exam="${i}"><strong>${bi(names[i])}</strong><span>${bi({ en: `${size} questions`, ar: `${size} سؤال` })}</span><small>${bi({ en: `Questions ${start + 1}–${start + size}`, ar: `الأسئلة ${start + 1}–${start + size}` })}</small></button>`;
       }).join("")}</div>` : `<button class="btn main" id="start">${bi({ en: `Start the ${q}-Question Exam`, ar: `ابدأ امتحان ${q} سؤال` })}</button>`}</div></main>`;
-  $$(".toc button").forEach(b => b.onclick = () => document.getElementById(b.dataset.g).scrollIntoView({ behavior: "smooth", block: "start" }));
+  const secs = $$("#stage section"), SK = "slide:" + L.id;
+  let cur = Math.min(secs.length - 1, Math.max(0, +Store.get(SK, 0) || 0));
+  const show = (i, sc) => {
+    cur = Math.max(0, Math.min(secs.length - 1, i));
+    secs.forEach((x, k) => { x.classList.toggle("on", k === cur); if (k === cur) x.classList.add("in"); });
+    $("#sct").textContent = "Slide " + (cur + 1) + " / " + secs.length + " - " + secs[cur].dataset.t;
+    $("#sfill").style.width = (cur + 1) / secs.length * 100 + "%";
+    $("#sprev").disabled = cur === 0;
+    $("#snext").innerHTML = cur === secs.length - 1 ? "Start exam &#8595;" : "Next &#8594;";
+    Store.set(SK, cur);
+    if (sc) $("#stage").scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  $$(".toc button").forEach(b => b.onclick = () => show(secs.findIndex(x => x.id === b.dataset.g), true));
+  $("#sprev").onclick = () => show(cur - 1, true);
+  $("#snext").onclick = () => { if (cur === secs.length - 1) $(".go").scrollIntoView({ behavior: "smooth" }); else show(cur + 1, true); };
+  let tx = null;
+  $("#stage").addEventListener("touchstart", e => { tx = e.touches[0].clientX; }, { passive: true });
+  $("#stage").addEventListener("touchend", e => { if (tx == null) return; const d = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(d) > 70) show(cur + (d < 0 ? 1 : -1), true); });
+  window.onkeydown = e => { if (!$("#stage") || /INPUT|TEXTAREA/.test(e.target.tagName)) return; if (e.key === "ArrowRight") show(cur + 1, true); if (e.key === "ArrowLeft") show(cur - 1, true); };
+  show(cur, false);
   $$(".done").forEach(b => b.onclick = () => {
     let d = Store.get("done:" + L.id, []); d = d.includes(b.dataset.s) ? d.filter(x => x != b.dataset.s) : d.concat(b.dataset.s);
     Store.set("done:" + L.id, d); lecUI(L);
   });
   if ($("#start")) $("#start").onclick = () => Exam.start(L, () => lecUI(L));
   $$(".exam-card").forEach(b => b.onclick = () => Exam.start(L, () => lecUI(L), +b.dataset.exam));
-  const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }), { threshold: .06 });
-  $$("section").forEach(x => io.observe(x));
   Tr.set(L.glossary); Tr.wrap(view); lecUI(L);
   Exam.restore(L, () => lecUI(L));
+  if (window.EF) EF.lecture(L, s);
 }
 
 async function route() {
@@ -182,12 +229,19 @@ async function route() {
   if (!restoreScroll) scrollTo(0, 0);
 
   try {
+    // صفحة حساب المستخدم (accounts.js)
+    if (p[0] === "me") return window.Accounts ? Accounts.render() : (view.innerHTML = `<div class="empty">Loading...</div>`);
+
+    // Study Boost routes (dashboard, flashcards, night-before, mistakes)
+    if (window.EF && EF.handles(p[0])) return await EF.render(p);
+
     if (p[0] === "t") return trackView(p[1]);
     if (p[0] === "s") return await subjectView(p[1]);
     if (p[0] === "tool") return await toolView(p[1], p[2]);
     if (p[0] === "l") return await lectureView(p[1], p[2]);
 
     home();
+    if (window.EF) EF.home();
   } catch (e) {
     view.innerHTML = `<div class="empty"><h3>Something went wrong</h3><p>${e.message}</p><button class="btn" data-go="/">Home</button></div>`;
   } finally {
