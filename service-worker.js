@@ -1,4 +1,4 @@
-const CACHE_NAME = 'etoedu-shell-v5';
+const CACHE_NAME = 'etoedu-shell-v6';
 const APP_SHELL = [
   './',
   './index.html',
@@ -19,8 +19,6 @@ const APP_SHELL = [
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
-    // Cache each existing local file independently; one optional/missing file
-    // must not prevent the whole PWA from being installed.
     await Promise.all(APP_SHELL.map(async (url) => {
       try {
         const response = await fetch(url, { cache: 'reload' });
@@ -32,7 +30,6 @@ self.addEventListener('install', (event) => {
     await self.skipWaiting();
   })());
 });
-
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
@@ -43,7 +40,6 @@ self.addEventListener('activate', (event) => {
     await self.clients.claim();
   })());
 });
-
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET') return;
@@ -67,9 +63,6 @@ self.addEventListener('fetch', (event) => {
     })());
     return;
   }
-
-  // Serve local static resources quickly from cache, refreshing them in the
-  // background for the next visit. This worker never reloads an open page.
   if (url.pathname.match(/\.(?:css|js|png|jpg|jpeg|webp|svg|json|woff2?)$/i)) {
     event.respondWith((async () => {
       const cached = await caches.match(request);

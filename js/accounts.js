@@ -21,15 +21,10 @@
     measurementId: "G-CZGZ3VW4ES"
   };
 
-  // الدايرة القديمة (جنب القرآن) - اكتب هنا الـ selector بتاعها عشان تتخفي. مثال: "#doaaCircle"
   const OLD_CIRCLE_SELECTOR = "";
-
-  // ids التراكات لكل مرحلة (من data/subjects.js). أي تراك جديد مش مكتوب هنا الكود بيخمّن مرحلته من اسمه (guessStage)
   const STAGE_TRACKS = { thanawya: ["secondary"], science: ["science"] };
-
-  const EMAIL_DOMAIN = "eto-edu.app"; // الاسم بيتحوّل لإيميل داخلي، المستخدم ما بيشوفوش
+  const EMAIL_DOMAIN = "eto-edu.app"; 
   const STAGES = { thanawya: "ثانوية عامة", science: "كلية العلوم" };
-
   let auth, db, sdk = {}, user = null, profile = null, pending = null, origSet = null, meShown = false;
   let D = { progress: {}, favs: {}, notes: {}, days: {} };
   const timers = {};
@@ -39,15 +34,13 @@
   const clean = o => JSON.parse(JSON.stringify(o));
   const NONE = {};
   const dayKey = (d = new Date()) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-
-  /* ---------------- stage filter: كل مرحلة تشوف تراكاتها بس ---------------- */
   let ALL_TRACKS = null;
   function guessStage(t) {
     for (const k in STAGE_TRACKS) if (STAGE_TRACKS[k].includes(t.id)) return k;
     const txt = JSON.stringify([t.id, t.code, t.title]).toLowerCase();
     if (/thanw|thanaw|secondary|high ?school|ثانو/.test(txt)) return "thanawya";
     if (/scien|faculty|college|univ|علوم|كلية|كليه/.test(txt)) return "science";
-    return null; // مش معروف: يفضل ظاهر للكل
+    return null; 
   }
   function applyStage() {
     if (typeof SITE === "undefined" || !SITE.tracks) return;
@@ -58,18 +51,14 @@
     if (typeof route === "function") route();
   }
   const visibleRec = r => !r.subject || (typeof findSubject !== "function") || !!findSubject(r.subject);
-
-  /* ---------------- helpers ---------------- */
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const normName = n => String(n).normalize("NFC").replace(/[\u064B-\u065F\u0670\u0640]/g, "").replace(/[أإآ]/g, "ا").replace(/\s+/g, " ").trim().toLowerCase();
-
   async function nameToEmail(name) {
     const bytes = new TextEncoder().encode(normName(name));
     const hash = await crypto.subtle.digest("SHA-256", bytes);
     const hex = [...new Uint8Array(hash)].map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 40);
     return "u" + hex + "@" + EMAIL_DOMAIN;
   }
-
   function resizeImage(file, size = 256) {
     return new Promise((resolve, reject) => {
       const img = new Image(), url = URL.createObjectURL(file);
@@ -84,7 +73,6 @@
       img.src = url;
     });
   }
-
   function errMsg(e) {
     const c = (e && e.code) || "";
     if (c === "auth/email-already-in-use") return "الاسم ده مستخدم قبل كده، زوّد اسم الأب أو الجد.";
@@ -96,8 +84,6 @@
     if (c === "PERMISSION_DENIED" || /permission/i.test((e && e.message) || "")) return "قواعد الداتابيز مش مسموحة، راجع Rules.";
     return "حصلت مشكلة، جرّب تاني.";
   }
-
-  /* ---------------- styles ---------------- */
   const st = document.createElement("style");
   st.textContent = `
 #acBtn{width:40px;height:40px;border-radius:50%;border:2px solid rgba(255,255,255,.55);padding:0;cursor:pointer;background:#2563eb center/cover no-repeat;color:#fff;font:700 1.05rem Cairo,Inter,sans-serif;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden}
@@ -132,7 +118,6 @@
 #acMenu .it.out{color:#dc2626}
 #acMenu .acSt{margin:4px 0 8px}
 #acMenu .acSt button{padding:8px 4px;font-size:.82rem}
-
 #acLec{position:fixed;left:12px;bottom:92px;z-index:90;display:flex;flex-direction:column;gap:8px}
 #acLec button{width:44px;height:44px;border-radius:50%;border:0;background:rgba(20,30,45,.9);color:#fff;font-size:1.25rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
 #acLec button.on{background:#f59e0b}
@@ -154,8 +139,6 @@
 .meNote{margin-bottom:12px}.meNote textarea{min-height:90px;margin-top:6px}
 ` + (OLD_CIRCLE_SELECTOR ? OLD_CIRCLE_SELECTOR + "{display:none!important}" : "");
   document.head.appendChild(st);
-
-  /* ---------------- top-bar avatar ---------------- */
   const btn = document.createElement("button");
   btn.id = "acBtn"; btn.type = "button"; btn.setAttribute("aria-label", "حسابي"); btn.hidden = true;
   function mountBtn() {
@@ -173,8 +156,6 @@
     window.dispatchEvent(new CustomEvent("accounts:change", { detail: { user, profile } }));
     if (meShown && user && profile && /^#\/me/.test(location.hash)) renderMe();
   }
-
-  /* ---------------- overlay (login / signup / stage) ---------------- */
   let ov = null;
   function showOverlay(html) {
     if (!ov) { ov = document.createElement("div"); ov.id = "acOv"; document.body.appendChild(ov); document.body.style.overflow = "hidden"; }
@@ -183,7 +164,6 @@
   }
   function hideOverlay() { if (ov) { ov.remove(); ov = null; document.body.style.overflow = ""; } }
   const spinner = () => showOverlay('<div class="acSpin"></div>');
-
   function stagePicker(sel) {
     return '<div class="acSt">' + Object.entries(STAGES).map(([k, v]) => '<button type="button" data-st="' + k + '"' + (k === sel ? ' class="on"' : "") + ">" + v + "</button>").join("") + "</div>";
   }
@@ -193,7 +173,6 @@
       onPick(b.dataset.st);
     });
   }
-
   function authScreen(mode) {
     let stage = "", photo = "";
     const signup = mode === "signup";
@@ -255,14 +234,11 @@
       applyStage();
     };
   }
-
-  /* ---------------- profile ---------------- */
   async function saveProfile(patch) {
     profile = Object.assign({}, profile, patch);
     refreshUI();
     try { await sdk.db.update(sdk.db.ref(db, "users/" + user.uid), patch); } catch (e) { console.warn("accounts:", e); }
   }
-
   async function loadProfile() {
     let v = null;
     try {
@@ -273,8 +249,6 @@
     profile = { name: v.name || user.displayName || "", stage: v.stage || "", photo: v.photo || "", createdAt: v.createdAt };
     D = { progress: v.progress || {}, favs: v.favs || {}, notes: v.notes || {}, days: v.days || {} };
   }
-
-  /* ---------------- cloud write helpers ---------------- */
   function w(path, val) {
     if (!user) return;
     sdk.db.set(sdk.db.ref(db, "users/" + user.uid + "/" + path), val === null ? null : clean(val)).catch(e => console.warn("accounts:", e));
@@ -300,8 +274,6 @@
     clearTimeout(timers[k]);
     timers[k] = setTimeout(() => w("progress/" + k, D.progress[k]), 500);
   }
-
-  /* ---------------- Store sync (done:/best:) ---------------- */
   function hookStore() {
     if (typeof Store === "undefined" || typeof Store.set !== "function" || Store.__ac) return;
     origSet = Store.set.bind(Store);
@@ -356,8 +328,6 @@
       if (JSON.stringify(rec) !== before) pushProgress(id);
     });
   }
-
-  /* ---------------- favorites + notes ---------------- */
   function toggleFav(id, sid) {
     const k = pk(id);
     if (D.favs[k]) { delete D.favs[k]; w("favs/" + k, null); }
@@ -393,8 +363,6 @@
     bar.querySelector("#acNt").onclick = () => noteModal(id, sid);
   }
   addEventListener("hashchange", () => { setTimeout(mountLecBar, 60); meShown = /^#\/me/.test(location.hash); });
-
-  /* ---------------- account page #/me ---------------- */
   function computeStats() {
     const P = Object.values(D.progress).filter(visibleRec), started = P.filter(r => (r.done || []).length || typeof r.best === "number");
     const secs = started.reduce((a, r) => a + (r.done || []).length, 0), total = started.reduce((a, r) => a + (r.n || 0), 0);
@@ -420,7 +388,6 @@
     return `<div class="meRow">${link}<b>${r.title ? T(r.title) : esc(r.id)}</b></${r.subject ? "a" : "span"}>
       ${extra || `<div class="meBar"><i style="width:${pct}%"></i></div><div class="meSm">${d}${n ? " / " + n : ""} قسم${typeof r.best === "number" ? " &middot; أفضل نتيجة " + r.best + "%" : ""}</div>`}</div>`;
   }
-
   function renderMe() {
     meShown = true;
     const view = $id("view"); if (!view) return;
@@ -457,8 +424,6 @@
       else if (a === "svnote") { const ta = [...view.querySelectorAll("textarea[data-id]")].find(t => t.dataset.id === id); if (ta) saveNote(id, ta.value, b.dataset.s); }
     };
   }
-
-  /* ---------------- dropdown menu ---------------- */
   function closeMenu() { const m = document.getElementById("acMenu"); if (m) m.remove(); }
   function openMenu() {
     if (document.getElementById("acMenu")) return closeMenu();
@@ -489,15 +454,13 @@
   btn.onclick = e => { e.stopPropagation(); openMenu(); };
   document.addEventListener("click", e => { if (!e.target.closest("#acMenu") && e.target !== btn) closeMenu(); });
   addEventListener("scroll", closeMenu, { passive: true });
-
-  /* ---------------- boot ---------------- */
   async function boot() {
     spinner();
     try {
-      const [A, Au, D] = await Promise.all([import(FB + "firebase-app.js"), import(FB + "firebase-auth.js"), import(FB + "firebase-database.js")]);
+      const [A, Au, FDB] = await Promise.all([import(FB + "firebase-app.js"), import(FB + "firebase-auth.js"), import(FB + "firebase-database.js")]);
       const app = A.initializeApp(CFG);
-      auth = Au.getAuth(app); db = D.getDatabase(app);
-      sdk.auth = Au; sdk.db = D;
+      auth = Au.getAuth(app); db = FDB.getDatabase(app);
+      sdk.auth = Au; sdk.db = FDB;
       import(FB + "firebase-analytics.js").then(m => m.getAnalytics(app)).catch(() => {});
       Au.onAuthStateChanged(auth, async u => {
         user = u;
@@ -514,7 +477,6 @@
       showOverlay('<div class="acCard"><h2>مفيش اتصال</h2><p class="sub">اتأكد من النت وحدّث الصفحة.</p><button class="acGo" onclick="location.reload()">تحديث</button></div>');
     }
   }
-
   window.Accounts = {
     get user() { return user; },
     get profile() { return profile; },
