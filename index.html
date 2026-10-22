@@ -3,13 +3,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#12355b">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ETO.Edu">
+<meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script>(function(){try{var t=JSON.parse(localStorage.getItem("theme"));var d=t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.theme=d?"dark":"light";if(d){var m=document.querySelector('meta[name="theme-color"]');if(m)m.content="#0e1621"}}catch(e){}})()</script>
 <link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-180.png">
+<link rel="icon" type="image/png" href="./icons/icon-192.png">
 <title>ETO.Edu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/polish.css">
+<link rel="stylesheet" href="css/dark.css">
 </head>
 <body data-l="ar">
 <div id="rp"></div>
@@ -18,6 +26,7 @@
   <div class="tools">
     <div class="seg" id="lg"><button data-l="en">EN</button><button data-l="ar" class="on">عربي</button><button data-l="both">عربي + EN</button></div>
     <div class="seg" id="fz"><button data-d="-1">A-</button><button data-d="1">A+</button></div>
+    <button class="seg" id="themeToggle" type="button" aria-label="الوضع الداكن / Dark mode" title="الوضع الداكن / Dark mode"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
     <button class="btn main install-btn" id="installApp" type="button" hidden>تثبيت التطبيق</button>
   </div>
 </div>
@@ -37,6 +46,8 @@
 <script src="js/nminus.js"></script>
 <script src="js/ssp.js"></script>
 <script src="js/features_1.js"></script>
+<script src="js/features_2.js"></script>
+<script src="js/mytools.js"></script>
 <script src="js/app.js"></script>
 <script src="data/cons.doaa.js"></script>
 <script src="js/accounts.js"></script>

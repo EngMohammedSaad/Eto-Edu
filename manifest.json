@@ -9,6 +9,7 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
+  "categories": ["education"],
   "background_color": "#f3f6f9",
   "theme_color": "#12355b",
   "icons": [
@@ -22,7 +23,13 @@
       "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

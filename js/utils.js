@@ -25,7 +25,27 @@ const UI = {
     document.documentElement.style.setProperty("--fs", this.fs + "px");
     Store.set("fs", this.fs);
   },
+  /* الوضع الداكن: القيمة المحفوظة "dark" أو "light"، ولو مفيش بنتبع إعداد الجهاز */
+  theme: {
+    isDark() { return document.documentElement.dataset.theme === "dark"; },
+    apply(d) {
+      document.documentElement.dataset.theme = d ? "dark" : "light";
+      const m = $('meta[name="theme-color"]'); if (m) m.content = d ? "#0e1621" : "#12355b";
+      const b = $("#themeToggle"); if (b) b.setAttribute("aria-pressed", d ? "true" : "false");
+    },
+    init() {
+      this.apply(this.isDark());
+      const b = $("#themeToggle");
+      if (b) b.onclick = () => { const d = !this.isDark(); this.apply(d); Store.set("theme", d ? "dark" : "light"); };
+      try {
+        matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+          if (Store.get("theme", null) == null) this.apply(e.matches);
+        });
+      } catch (e) {}
+    }
+  },
   init() {
+    this.theme.init();
     this.fs = Store.get("fs", 18); this.font(0);
     const savedLang = Store.get("lang", null);
     const langVersion = Store.get("lang-mode-version", 0);

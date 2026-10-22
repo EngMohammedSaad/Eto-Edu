@@ -1,0 +1,184 @@
+/* css/dark.css - الوضع الداكن. بيتحمّل بعد polish.css.
+   بيشتغل لما يكون <html data-theme="dark">. لو حابب تشيله احذف الملف وسطر الـ link بتاعه. */
+
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0b1220;--card:#121a29;--card-2:#172133;--ink:#e8eef6;--mu:#93a4b8;
+  --bd:#243247;--line:#243247;
+  --navy:#9cc9f5;            /* لون نص فاتح للعناوين؛ الخلفيات بتاخد --navy-bg */
+  --navy-bg:#1e4e86;
+  --shadow-1:0 1px 2px rgba(0,0,0,.45),0 4px 14px rgba(0,0,0,.3);
+  --shadow-2:0 2px 4px rgba(0,0,0,.5),0 10px 26px rgba(0,0,0,.4);
+  --border:#243247;--surface:#121a29;--surface-secondary:#172133;   /* بيستخدمها exam.js */
+}
+
+html[data-theme="dark"] body{background-image:radial-gradient(ellipse at 4% 12%,rgba(45,212,191,.07),transparent 36%),radial-gradient(ellipse at 96% 42%,rgba(99,102,241,.06),transparent 32%)}
+/* ===== الشريط العلوي والأزرار ===== */
+html[data-theme="dark"] .top{background:rgba(11,18,32,.88);border-bottom-color:var(--bd)}
+html[data-theme="dark"] .brand{color:var(--ink)}
+html[data-theme="dark"] .brand i{background:linear-gradient(135deg,var(--teal),var(--navy-bg))}
+html[data-theme="dark"] .seg{background:var(--card-2);border-color:var(--bd)}
+html[data-theme="dark"] .seg button{color:var(--mu);background:transparent}
+html[data-theme="dark"] .seg button:not(.on):hover{background:rgba(255,255,255,.07);color:var(--ink)}
+html[data-theme="dark"] .seg button.on{background:var(--navy-bg);color:#fff;box-shadow:none}
+html[data-theme="dark"] .btn{background:var(--card-2);color:var(--ink);border-color:var(--bd)}
+html[data-theme="dark"] .btn:hover{border-color:#37506d;box-shadow:var(--shadow-2)}
+html[data-theme="dark"] .btn:disabled{opacity:.4}
+html[data-theme="dark"] .btn.main,
+html[data-theme="dark"] #up,
+html[data-theme="dark"] .nt-vh,
+html[data-theme="dark"] .nt-ic{background:var(--navy-bg);color:#fff;border-color:var(--navy-bg)}
+html[data-theme="dark"] .btn.main:hover{background:#2a64a8;border-color:#2a64a8}
+html[data-theme="dark"] .tcard .ti{background:linear-gradient(135deg,var(--teal),var(--navy-bg))}
+html[data-theme="dark"] #up{background-color:var(--navy-bg)}
+html[data-theme="dark"] #etoBack{background:rgba(30,78,134,.9)}
+/* ===== الكروت والصفحة الرئيسية ===== */
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .tcard,
+html[data-theme="dark"] .exam-card,
+html[data-theme="dark"] section,
+html[data-theme="dark"] .rv{background:var(--card);border-color:var(--bd)}
+html[data-theme="dark"] section{border-top-color:var(--teal)}
+html[data-theme="dark"] .card:hover,
+html[data-theme="dark"] .tcard:hover,
+html[data-theme="dark"] .exam-card:hover{border-color:#37506d}
+html[data-theme="dark"] .card .im{background:#1b2638}
+html[data-theme="dark"] .card.soon .im{background:repeating-linear-gradient(45deg,#121a29,#121a29 12px,#172133 12px,#172133 24px)}
+html[data-theme="dark"] .chips span{background:rgba(45,212,191,.12);color:#6ee7d8}
+html[data-theme="dark"] .lhero .chips span{background:rgba(255,255,255,.18);color:#fff}
+html[data-theme="dark"] .crumb a,
+html[data-theme="dark"] h2 small,
+html[data-theme="dark"] .score{color:#4fd1c5}
+html[data-theme="dark"] .pbar,
+html[data-theme="dark"] .prog{background:#1d2a3d}
+html[data-theme="dark"] .t:hover{background:rgba(79,209,197,.2)}
+html[data-theme="dark"] .stats span{background:rgba(255,255,255,.07)}
+/* ===== المحاضرة ===== */
+html[data-theme="dark"] .tip{background:#2a2410;border-color:#5f4e17;color:#f3d487}
+html[data-theme="dark"] .tip .ar{color:#f3d487}
+html[data-theme="dark"] .key{background:#2a2410}
+html[data-theme="dark"] .mem{background:#0f2a2b;border-color:#1f6f6a}
+html[data-theme="dark"] .mem h3{color:#6ee7d8}
+html[data-theme="dark"] .done{background:var(--card-2);color:#6ee7d8;border-color:var(--teal)}
+html[data-theme="dark"] .done.y{background:var(--teal);color:#fff}
+html[data-theme="dark"] .toc button{background:rgba(18,26,41,.92);color:var(--ink)}
+html[data-theme="dark"] .toc button:hover{background:var(--amb);color:#12232e}
+html[data-theme="dark"] .fig img{border-color:var(--bd);box-shadow:0 10px 26px rgba(0,0,0,.5);filter:brightness(.9) contrast(1.02)}
+html[data-theme="dark"] #tipx{background:#22344d;color:#fff;border:1px solid #33506f}
+html[data-theme="dark"] .go small,
+html[data-theme="dark"] .cap{color:var(--mu)}
+html[data-theme="dark"] .tl{filter:saturate(.9) brightness(.92)}
+/* ===== الامتحانات ===== */
+html[data-theme="dark"] #ex{background:var(--bg)}
+html[data-theme="dark"] .opt{background:var(--card);color:var(--ink);border-color:var(--bd)}
+html[data-theme="dark"] .opt:hover{background:var(--card-2);border-color:var(--teal)}
+html[data-theme="dark"] .opt.s,
+html[data-theme="dark"] .opt.s:hover{background:#17304d;border-color:var(--navy)}
+html[data-theme="dark"] .ok{color:#4ade80}
+html[data-theme="dark"] .no{color:#f87171}
+html[data-theme="dark"] .math-review-card{background:var(--card)}
+html[data-theme="dark"] .math-review-question{background:var(--card-2)}
+html[data-theme="dark"] .math-guided-stepper{background:var(--card);color:var(--ink);border-color:#3b3470}
+html[data-theme="dark"] .math-guided-step-head,
+html[data-theme="dark"] .math-guided-progress{background:#1e1b3a;border-color:#3b3470}
+html[data-theme="dark"] .math-guided-progress i{background:#33305a}
+html[data-theme="dark"] .math-guided-progress i.active{background:#9b82ff}
+html[data-theme="dark"] .math-guided-step-number{background:#2b2656;color:#c4b5fd}
+html[data-theme="dark"] .math-guided-equation{background:#141226;border-color:#2b2656}
+html[data-theme="dark"] .math-guided-after{background:var(--card-2);border-color:#3b3470}
+html[data-theme="dark"] .math-guided-arrow{color:#a78bfa}
+html[data-theme="dark"] .math-guided-step-nav{border-color:var(--bd)}
+html[data-theme="dark"] .math-guided-answer{background:#0f2a1c;border-color:#1d5a37;color:#86efac}
+/* ===== تحميل أوفلاين ===== */
+html[data-theme="dark"] .of-top,
+html[data-theme="dark"] .of-grp,
+html[data-theme="dark"] .nt-form,
+html[data-theme="dark"] .nt-card{background:var(--card);border-color:var(--bd);box-shadow:var(--shadow-1)}
+html[data-theme="dark"] .of-note{background:#2a2410;border-color:#5f4e17;color:#f3d487}
+html[data-theme="dark"] .of-prog{background:#1d2a3d}
+html[data-theme="dark"] .of-prog span{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+html[data-theme="dark"] .of-chip.ok{background:#10301f;color:#4ade80}
+html[data-theme="dark"] .of-chip.no{background:#1d2a3d;color:var(--mu)}
+html[data-theme="dark"] .of-gh,
+html[data-theme="dark"] .of-row,
+html[data-theme="dark"] .nt-own,
+html[data-theme="dark"] .nt-merow{border-color:var(--bd)}
+/* ===== الملخصات ===== */
+html[data-theme="dark"] .nt-form input,
+html[data-theme="dark"] .nt-form select,
+html[data-theme="dark"] .nt-bar input,
+html[data-theme="dark"] .nt-bar select{background:#0e1626;color:var(--ink);border-color:var(--bd)}
+html[data-theme="dark"] .nt-form input:focus,
+html[data-theme="dark"] .nt-form select:focus,
+html[data-theme="dark"] .nt-bar input:focus,
+html[data-theme="dark"] .nt-bar select:focus{outline-color:rgba(79,209,197,.3);border-color:var(--teal)}
+html[data-theme="dark"] .nt-err{background:#321618;color:#fca5a5;border-color:#6b2a2d}
+html[data-theme="dark"] #ntViewer{background:var(--bg)}
+html[data-theme="dark"] .nt-vhint{background:var(--card);color:var(--mu)}
+/* ===== الحساب ===== */
+html[data-theme="dark"] .acCard,
+html[data-theme="dark"] #acMenu{background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+html[data-theme="dark"] .acCard p.sub,
+html[data-theme="dark"] #acMenu .sg,
+html[data-theme="dark"] .acPhT{color:var(--mu)}
+html[data-theme="dark"] .acTabs{background:var(--card-2)}
+html[data-theme="dark"] .acTabs button{color:var(--mu)}
+html[data-theme="dark"] .acTabs button.on{background:#1e4e86;color:#fff;box-shadow:none}
+html[data-theme="dark"] .acF label{color:var(--mu)}
+html[data-theme="dark"] .acF input[type=text],
+html[data-theme="dark"] .acF input[type=password],
+html[data-theme="dark"] #acNote textarea,
+html[data-theme="dark"] .meNote textarea{background:#0e1626;color:var(--ink);border-color:var(--bd)}
+html[data-theme="dark"] .acF input:focus{border-color:#4f8ef7}
+html[data-theme="dark"] .acSt button{background:var(--card-2);border-color:var(--bd);color:var(--ink)}
+html[data-theme="dark"] .acSt button.on{background:#17304d;border-color:#4f8ef7;color:#93c5fd}
+html[data-theme="dark"] .acPh{background:var(--card-2);border-color:#37506d;color:var(--mu)}
+html[data-theme="dark"] #acMenu .who{border-color:var(--bd)}
+html[data-theme="dark"] #acMenu .it{color:var(--ink)}
+html[data-theme="dark"] #acMenu .it:hover{background:var(--card-2)}
+html[data-theme="dark"] #acMenu .it.out{color:#f87171}
+html[data-theme="dark"] .acErr{color:#f87171}
+html[data-theme="dark"] .meSub{color:#7fb2ff}
+/* ===== قارئ PDF ===== */
+html[data-theme="dark"] #pdfr{background:#0b1220;color:var(--ink)}
+html[data-theme="dark"] #pdfr .pr-top{background:#0f2744}
+html[data-theme="dark"] #pdfr .pr-tools{background:var(--card);border-color:var(--bd)}
+html[data-theme="dark"] #pdfr .pr-grp{border-color:var(--bd)}
+html[data-theme="dark"] #pdfr .pr-tools button{background:var(--card-2);border-color:var(--bd);color:var(--ink)}
+html[data-theme="dark"] #pdfr .pr-tools button.on{background:var(--navy-bg);border-color:var(--navy-bg);color:#fff}
+html[data-theme="dark"] #pdfr .pr-tools .pr-c{border-color:var(--card);box-shadow:0 0 0 1px #4b5d73}
+html[data-theme="dark"] #pdfr .pr-tools .pr-c.on{box-shadow:0 0 0 3px #8cc2f2}
+html[data-theme="dark"] #pdfr .pr-page{box-shadow:0 2px 14px rgba(0,0,0,.6)}
+html[data-theme="dark"] #pdfr .pr-page canvas.pv{filter:brightness(.88)}
+html[data-theme="dark"] #pdfr .pr-load a{color:#8cc2f2}
+html[data-theme="dark"] #pdfr .pr-sheet{background:var(--card);color:var(--ink);box-shadow:0 -8px 30px rgba(0,0,0,.6)}
+html[data-theme="dark"] #pdfr .sh-h button,
+html[data-theme="dark"] #pdfr .sh-act button,
+html[data-theme="dark"] #pdfr .sh-wiki .wbtn,
+html[data-theme="dark"] #pdfr .sh-wiki .chips button{background:var(--card-2);border-color:var(--bd);color:var(--ink)}
+html[data-theme="dark"] #pdfr .sh-tr{color:#8cc2f2}
+html[data-theme="dark"] #pdfr .sh-alt{color:var(--mu)}
+html[data-theme="dark"] #pdfr .sh-hl .pr-c{border-color:var(--card)}
+html[data-theme="dark"] #pdfr .sh-wiki{border-color:var(--bd)}
+html[data-theme="dark"] #pdfr .sh-wiki .wtr{background:var(--card-2)}
+/* ===== نماذج الإدخال العامة ===== */
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea{background:#0e1626;color:var(--ink);border-color:var(--bd)}
+html[data-theme="dark"] ::placeholder{color:#6f8196}
+
+/* ===== زرار تبديل الثيم ===== */
+#themeToggle{width:40px;min-width:40px;padding:0;display:inline-flex;align-items:center;justify-content:center;border:1.5px solid var(--bd);border-radius:99px;background:var(--card);color:var(--ink);cursor:pointer;flex:0 0 auto}
+#themeToggle svg{width:18px;height:18px;display:block}
+#themeToggle .sun{display:none}
+html[data-theme="dark"] #themeToggle{background:var(--card-2);color:#f3d487}
+html[data-theme="dark"] #themeToggle .sun{display:block}
+html[data-theme="dark"] #themeToggle .moon{display:none}
+#themeToggle:focus-visible{outline:3px solid var(--amb);outline-offset:3px}
+
+/* ===== الطباعة دايمًا فاتحة ===== */
+@media print{
+  html[data-theme="dark"]{--bg:#fff;--card:#fff;--ink:#12232e;--mu:#5a6b78;--navy:#12355b;--bd:#e1e7ed}
+  html[data-theme="dark"] section{background:#fff}
+  html[data-theme="dark"] .fig img{filter:none}
+}

@@ -11,14 +11,14 @@
 
   const FB = "https://www.gstatic.com/firebasejs/10.14.1/";
   const CFG = {
-    apiKey: "AIzaSyC5NZw1P-YWglpBu9SJ6-agmesofIhr4ao",
-    authDomain: "eto-edu-accounts.firebaseapp.com",
-    databaseURL: "https://eto-edu-accounts-default-rtdb.firebaseio.com", // لو الداتابيز في ريجن تاني انسخ الرابط من صفحة Realtime Database
-    projectId: "eto-edu-accounts",
-    storageBucket: "eto-edu-accounts.firebasestorage.app",
-    messagingSenderId: "945070167285",
-    appId: "1:945070167285:web:f55fa058b2a4cb700a21bc",
-    measurementId: "G-CZGZ3VW4ES"
+    apiKey: "AIzaSyBWpxuCmdqUSPr7STOK7LZe1ra2v7WZj4o",
+    authDomain: "eto-account.firebaseapp.com",
+    databaseURL: "https://eto-account-default-rtdb.firebaseio.com",
+    projectId: "eto-account",
+    storageBucket: "eto-account.firebasestorage.app",
+    messagingSenderId: "416807804610",
+    appId: "1:416807804610:web:349ec9374d9cb3d60fe55b",
+    measurementId: "G-4S4RYVYME9"
   };
 
   const OLD_CIRCLE_SELECTOR = "";

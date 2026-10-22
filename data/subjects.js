@@ -1,8 +1,6 @@
-/* ==========================================================
-   data/subjects.js
-   قائمة التراكات والمواد.
-   ========================================================== */
+
 window.SITE = {
+  pdfProxy: "https://crimson-block-55e3.elembe999.workers.dev",
   tracks: [
     {
       id: "science", code: "SCI",
@@ -12,8 +10,8 @@ window.SITE = {
         { id: "geo", code: "GEO", title: { en: "Geology", ar: "الجيولوجيا" }, colors: ["#0e8a8a", "#12355b"],
           files: ["data/Geo/lecture1.js", "data/Geo/questions1.js"] },
         { id: "phys", code: "PHY", title: { en: "Physics", ar: "الفيزياء" }, colors: ["#2563eb", "#1e1b4b"],
-          files: ["data/Phys/lecture1.js","data/Phys/lecture2.js", "data/Phys/questions1.js","data/Phys/questions2.js", "data/Phys/formulas.js"],
-          tools: ["formulas"] },
+          files: ["data/Phys/lecture1.js","data/Phys/lecture2.js", "data/Phys/questions1.js","data/Phys/questions2.js", "data/Phys/formulas.js", "data/Phys/converter.js"],
+          tools: ["formulas", "converter"] },
         { id: "chem", code: "CHM", title: { en: "Chemistry", ar: "الكيمياء" }, colors: ["#db2777", "#4c1d95"],
           files: ["data/Chem/lecture1.js", "data/Chem/lecture2.js","data/Chem/questions1.js","data/Chem/questions2.js"] },
         { id: "bot", code: "BOT", title: { en: "Botany", ar: "النبات" }, colors: ["#16a34a", "#14532d"], soon: true },
@@ -37,3 +35,4 @@ window.SITE = {
     }
   ]
 };
+ 

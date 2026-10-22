@@ -366,10 +366,15 @@ const Exam = {
     const pdf = examEscape(exam.pdf || "");
     const description = exam.description || { en: "Original worksheet PDF", ar: "ملف الشيت الأصلي PDF" };
     box.innerHTML = `<div class="exh"><span>${bi(title)}</span><button class="btn" id="x">${bi({ en: "Close", ar: "إغلاق" })}</button></div>
-      <div class="msg">${bi(description)}<p>${bi({ en: `${exam.questionCount || ""} questions. Answer on paper; this original PDF is not auto-graded.`, ar: `${exam.questionCount || ""} سؤالًا. حل على ورقة خارجية؛ ملف الـPDF الأصلي لا يتم تصحيحه تلقائيًا.` })}</p>
-      <a class="btn main" href="${pdf}" target="_blank" rel="noopener">${bi({ en: "Open PDF in a new tab", ar: "فتح ملف PDF في نافذة جديدة" })}</a></div>
-      <iframe title="${examEscape(exam.title && exam.title.en || "Worksheet PDF")}" src="${pdf}#toolbar=1&navpanes=0" style="width:100%;height:min(72vh,900px);border:1px solid var(--border,#ddd);border-radius:12px;background:#fff"></iframe>`;
+      <div class="msg">${bi(description)}<p>${bi({ en: `${exam.questionCount || ""} questions. Study on the PDF: write, draw, highlight, tap any English word to translate it, or look it up on Wikipedia.`, ar: `${exam.questionCount || ""} سؤالًا. ذاكر على الملف: اكتب وارسم وهايلايت، واضغط على أي كلمة إنجليزي تترجمها، أو دوّر عليها في ويكيبيديا.` })}</p>
+      <button class="btn main" id="openReader" type="button">${bi({ en: "Open the PDF to study", ar: "افتح الملف للمذاكرة" })}</button>
+      <a class="btn" href="${pdf}" target="_blank" rel="noopener">${bi({ en: "Open in a new tab", ar: "فتح في نافذة جديدة" })}</a></div>`;
     $("#x").onclick = () => this.close();
+    const openReader = () => loadScripts(["js/pdfreader.js"])
+      .then(() => PdfReader.open({ url: exam.pdf, title }))
+      .catch(() => window.open(exam.pdf, "_blank", "noopener"));
+    $("#openReader").onclick = openReader;
+    if (!document.getElementById("pdfr")) openReader();
     $("#ex").scrollTop = 0;
     if (typeof Tr !== "undefined" && Tr.wrap) Tr.wrap(box);
     this.saveState("pdf");
